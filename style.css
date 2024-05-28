@@ -32,3 +32,30 @@ header {
 #searchPokemon {
     background-color: transparent;
 }
+
+
+#content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin-top: 32px;
+}
+
+
+.pokemon-card {
+    background-color: aquamarine;
+    width: 300px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+}
+
+
+.pokemon-card img {
+    width: 150px;
+}
