@@ -40,7 +40,7 @@ header {
     align-items: center;
     flex-wrap: wrap;
     gap: 32px;
-    margin-top: 32px;
+    margin: 32px;
 }
 
 
@@ -58,4 +58,15 @@ header {
 
 .pokemon-card img {
     width: 150px;
+}
+
+
+.pokemon-types {
+    display: flex;
+    gap: 64px;
+}
+
+
+.single-type {
+    background-color: azure;
 }

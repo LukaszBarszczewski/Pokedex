@@ -23,10 +23,11 @@ async function showPokemonImage(pokemonURL) {
     //     console.log("Sprites:", sprites.back_default);
     // });
     // console.log("Sprites:", responseToJSON.sprites.front_default);
-
+    let types = responseToJSON.types.map(typeInfo => `<div class="single-type">${typeInfo.type.name}</div>`).join('');
     content.innerHTML += `<div class="pokemon-card">
                         <img src="${responseToJSON.sprites.front_default}">
                         <b>${responseToJSON.name.toUpperCase()}</b>
+                        <div class="pokemon-types">${types}</div>
                         </div>
                         `;
 }
