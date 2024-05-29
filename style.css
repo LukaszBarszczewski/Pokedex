@@ -56,13 +56,13 @@ header {
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     opacity: 0.8;
+    cursor: pointer;
 }
 
 
 .pokemon-card:hover {
     height: 300px;
-    transition: 0.5s ease-in-out;
-    transform: rotate(360deg);
+    transition: 0.3s ease-in-out;
     margin: -15px 0;
     opacity: 1;
 }
@@ -80,10 +80,12 @@ header {
         visibility: hidden;
         opacity: 0;
     }
+
     50% {
         visibility: hidden;
         opacity: 0.5;
     }
+
     100% {
         visibility: visible;
         opacity: 1;
@@ -119,3 +121,60 @@ header {
 }
 
 
+#statsContainer {
+    display: none;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+
+.stats-container {
+    width: 400px;
+    height: 70vh;
+    background-color: aqua;
+    display: flex;
+    flex-shrink: 1;
+    margin: 32px;
+    border-radius: 40px;
+    animation: grow 1s;
+}
+
+
+@keyframes grow {
+    0% {
+        height: 0;
+        width: 0;
+        opacity: 0;
+    }
+
+    50% {
+        width: 200px;
+        height: 35vh;
+        opacity: 0.5;
+        transform: rotate(45deg);
+    }
+
+    75% {
+        transform: rotate(-45deg);
+    }
+
+    80% {
+        transform: rotate(45deg);
+    }
+
+    90% {
+        transform: rotate(360deg);
+    }
+
+    100% {
+        width: 400px;
+        height: 70vh;
+        opacity: 1;
+    }
+}

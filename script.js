@@ -28,7 +28,7 @@ async function showPokemonCard(pokemonURL) {
     // });
     // console.log("Sprites:", responseToJSON.sprites.front_default);
     let types = responseToJSON.types.map(typeInfo => `<div class="single-type">${typeInfo.type.name}</div>`).join('');
-    content.innerHTML += `<div class="pokemon-card">
+    content.innerHTML += `<div class="pokemon-card" onclick="showPokemonStats()">
                         <img src="${responseToJSON.sprites.other.home.front_default}">
                         <b>${responseToJSON.name.toUpperCase()}</b>
                         <div class="pokemon-types">${types}</div>
@@ -69,7 +69,6 @@ async function fetchPokemonStats() {
     let response = await fetch(pokemonURL);
     let responseToJSON = await response.json();
 
-
     for (let index = 0; index < responseToJSON.results.length; index++) {
         let pokemonDetailsURL = responseToJSON.results[index].url;
         let pokemonResponse = await fetch(pokemonDetailsURL);
@@ -78,9 +77,29 @@ async function fetchPokemonStats() {
 
         console.log(`Stats for ${pokemonData.name}:`);
         pokemonData.stats.forEach(stat => {
-            console.log(`${stat.stat.name}: ${stat.base_stat}`);
+            // console.log(`${stat.stat.name}: ${stat.base_stat}`);
         });
     }
+}
+
+
+async function showPokemonStats() {
+    let pokemonURL = `${BASE_URL}?limit=${limitPokemonAmount}&offset=${offset}`;
+    let response = await fetch(pokemonURL);
+    let responseToJSON = await response.json();
+    
+
+    statsContainer.style.display = "block";
+    statsContainer.style.display = "flex"; 
+    statsContainer.style.justifyContent = "center"; 
+    statsContainer.style.alignItems = "center";
+    statsContainer.innerHTML = `<div class="stats-container">
+    <img src="">
+    <b></b>
+    </div>`;
+
+
+    console.log('test');
 }
 
 
