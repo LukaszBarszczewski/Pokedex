@@ -28,7 +28,7 @@ async function showPokemonImage(pokemonURL) {
     // console.log("Sprites:", responseToJSON.sprites.front_default);
     let types = responseToJSON.types.map(typeInfo => `<div class="single-type">${typeInfo.type.name}</div>`).join('');  
     content.innerHTML += `<div class="pokemon-card">
-                        <img src="${responseToJSON.sprites.front_default}">
+                        <img src="${responseToJSON.sprites.other.home.front_default}">
                         <b>${responseToJSON.name.toUpperCase()}</b>
                         <div class="pokemon-types">${types}</div>
                         </div>
@@ -41,6 +41,7 @@ async function fetchPokemonFromAPI() {
     let response = await fetch(pokemonURL);
     let responseToJSON = await response.json();
     console.log(responseToJSON);
+    
 
     for (let index = 0; index < responseToJSON.results.length; index++) {
 
@@ -48,6 +49,7 @@ async function fetchPokemonFromAPI() {
         console.log(pokemonName.name);
         showPokemonImage(pokemonName.url);
     }
+    offset += limitPokemonAmount;
 }
 
 
