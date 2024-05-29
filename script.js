@@ -1,12 +1,15 @@
+const BASE_URL = `https://pokeapi.co/api/v2/pokemon/`;
+const limitPokemonAmount = 20;
+let offset = 0;
 
 
 function init() {
     includeHTML();
     fetchPokemonFromAPI();
+    document.getElementById('loadMorePokemon').addEventListener('click', fetchPokemonFromAPI);
 }
 
 
-const BASE_URL = `https://pokeapi.co/api/v2/pokemon/`;
 
 
 async function showPokemonImage(pokemonURL) {
@@ -23,7 +26,7 @@ async function showPokemonImage(pokemonURL) {
     //     console.log("Sprites:", sprites.back_default);
     // });
     // console.log("Sprites:", responseToJSON.sprites.front_default);
-    let types = responseToJSON.types.map(typeInfo => `<div class="single-type">${typeInfo.type.name}</div>`).join('');
+    let types = responseToJSON.types.map(typeInfo => `<div class="single-type">${typeInfo.type.name}</div>`).join('');  
     content.innerHTML += `<div class="pokemon-card">
                         <img src="${responseToJSON.sprites.front_default}">
                         <b>${responseToJSON.name.toUpperCase()}</b>
@@ -34,7 +37,7 @@ async function showPokemonImage(pokemonURL) {
 
 
 async function fetchPokemonFromAPI() {
-    let pokemonURL = `${BASE_URL}?limit=10&offset=0`;
+    let pokemonURL = `${BASE_URL}?limit=${limitPokemonAmount}&offset=${offset}`;
     let response = await fetch(pokemonURL);
     let responseToJSON = await response.json();
     console.log(responseToJSON);
@@ -57,19 +60,6 @@ function filterPokemon() {
     console.log(pokemonURL);
 }
 
-
-
-
-
-// for (let index = 0; index < array.length; index++) {
-//     const pokemon = array[index];  (array: responseToJSON.results[index])
-
-
-//     let pokemonURL = BASE_URL + `${i}`;
-//     let response = await fetch(pokemonURL);
-//     let responseToJSON = await response.json();
-//     content.innerHTML += `<img src="${responseToJSON.sprites.front_default}">`;
-// }
 
 
 
