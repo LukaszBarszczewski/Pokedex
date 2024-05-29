@@ -39,25 +39,66 @@ header {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 32px;
+    gap: 64px 32px;
     margin: 32px;
 }
 
 
 .pokemon-card {
     background-color: aquamarine;
-    width: 300px;
-    height: 500px;
+    width: 250px;
+    height: 270px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    border-radius: 10px;
+    border-radius: 40px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    opacity: 0.8;
+}
+
+
+.pokemon-card:hover {
+    height: 300px;
+    transition: 0.5s ease-in-out;
+    transform: rotate(360deg);
+    margin: -15px 0;
+    opacity: 1;
+}
+
+
+.pokemon-card:hover .single-type {
+    visibility: visible;
+    opacity: 1;
+    animation: fadeIn 0.5s forwards;
+}
+
+
+@keyframes fadeIn {
+    0% {
+        visibility: hidden;
+        opacity: 0;
+    }
+    50% {
+        visibility: hidden;
+        opacity: 0.5;
+    }
+    100% {
+        visibility: visible;
+        opacity: 1;
+    }
 }
 
 
 .pokemon-card img {
-    width: 150px;
+    width: 200px;
+    transform: translateY(-40px);
+}
+
+
+.pokemon-card b {
+    font-size: 26px;
 }
 
 
@@ -68,5 +109,13 @@ header {
 
 
 .single-type {
-    background-color: azure;
+    background-color: rgba(0, 0, 0, 0.1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 8px;
+    border-radius: 12px;
+    margin-top: 10px;
+    visibility: hidden;
+    transition: 0.15s ease-in-out;
 }
+
+
