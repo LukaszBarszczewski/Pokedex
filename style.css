@@ -135,6 +135,9 @@ header {
 
 
 .stats-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 400px;
     height: 70vh;
     background-color: aqua;
@@ -177,4 +180,11 @@ header {
         height: 70vh;
         opacity: 1;
     }
+}
+
+
+.stats-container b {
+    visibility: visible;
+    opacity: 1;
+    animation: fadeIn 2.3s forwards;
 }

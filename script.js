@@ -95,7 +95,7 @@ async function showPokemonStats() {
     statsContainer.style.alignItems = "center";
     statsContainer.innerHTML = `<div class="stats-container">
     <img src="">
-    <b></b>
+    <b>test</b>
     </div>`;
 
 
