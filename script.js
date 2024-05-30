@@ -86,7 +86,7 @@ async function showPokemonStats(pokemonData) {
         // Berechne die Fortschrittsleiste für jede Statistik
         let progressBarWidth = (statInfo.base_stat / 100) * 100; // Annahme: 255 ist der maximale Wert für eine Statistik
         return `<div class="stat-item">
-                    <div class="stat-name">${statInfo.stat.name}</div>
+                    <div class="stat-name">${statInfo.stat.name.toUpperCase()}</div>
                     <div class="progress">
                         <div class="progress-bar" role="progressbar" style="width: ${progressBarWidth}%; background-color: red"
                             aria-valuenow="${statInfo.base_stat}" aria-valuemin="0" aria-valuemax="100">${statInfo.base_stat}</div>

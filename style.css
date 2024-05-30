@@ -149,6 +149,7 @@ header {
     border-radius: 40px;
     animation: grow 1s;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    border: solid 10px;
 }
 
 
@@ -211,11 +212,17 @@ header {
 .stat-item {
     width: 100%;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     flex-direction: column;
 }
 
 
 .progress {
     width: 80%;
+}
+
+
+.progress-bar {
+    border-radius: 10px 10px 10px 10px;
+    color: white;
 }
