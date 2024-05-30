@@ -188,7 +188,6 @@ header {
 
 
 .stats-container b {
-    animation: fadeIn 2.4s forwards;
     font-size: 26px;
 }
 
@@ -203,7 +202,6 @@ header {
 .all-stats {
     width: 80%;
     display: flex;
-    
     align-items: center;
     flex-direction: column;
 }
@@ -225,4 +223,11 @@ header {
 .progress-bar {
     border-radius: 10px 10px 10px 10px;
     color: white;
+    animation: progressAnimationStrike 4s;
+}
+
+
+@keyframes progressAnimationStrike {
+    from { width: 0 }
+    to   { max-width: 100% }
 }
