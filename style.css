@@ -136,8 +136,10 @@ header {
 
 .stats-container {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    flex-direction: column;
+    overflow: hidden;
     width: 400px;
     height: 70vh;
     background-color: aqua;
@@ -146,6 +148,7 @@ header {
     margin: 32px;
     border-radius: 40px;
     animation: grow 1s;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -163,15 +166,15 @@ header {
         transform: rotate(45deg);
     }
 
-    75% {
+    65% {
         transform: rotate(-45deg);
     }
 
-    80% {
+    75% {
         transform: rotate(45deg);
     }
 
-    90% {
+    80% {
         transform: rotate(360deg);
     }
 
@@ -184,7 +187,35 @@ header {
 
 
 .stats-container b {
-    visibility: visible;
-    opacity: 1;
-    animation: fadeIn 2.3s forwards;
+    animation: fadeIn 2.4s forwards;
+    font-size: 26px;
+}
+
+
+.stats-container img {
+    width: 300px;
+    position: relative;
+    top: -14px;
+}
+
+
+.all-stats {
+    width: 80%;
+    display: flex;
+    
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.stat-item {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+
+.progress {
+    width: 80%;
 }

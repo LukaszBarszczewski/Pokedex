@@ -7,7 +7,6 @@ function init() {
     includeHTML();
     fetchPokemonFromAPI();
     document.getElementById('loadMorePokemon').addEventListener('click', fetchPokemonFromAPI);
-    fetchPokemonStats();
 }
 
 
@@ -21,14 +20,14 @@ async function showPokemonCard(pokemonURL) {
 
     let response = await fetch(pokemonURL);
     let responseToJSON = await response.json();
-    // console.log(responseToJSON);
+    console.log(responseToJSON);
     // console.log("Held Items:", responseToJSON.held_items);
     // responseToJSON.sprites.forEach(sprites => {
     //     console.log("Sprites:", sprites.back_default);
     // });
     // console.log("Sprites:", responseToJSON.sprites.front_default);
     let types = responseToJSON.types.map(typeInfo => `<div class="single-type">${typeInfo.type.name}</div>`).join('');
-    content.innerHTML += `<div class="pokemon-card" onclick="showPokemonStats()">
+    content.innerHTML += `<div class="pokemon-card" onclick="fetchPokemonStats('${pokemonURL}')">
                         <img src="${responseToJSON.sprites.other.home.front_default}">
                         <b>${responseToJSON.name.toUpperCase()}</b>
                         <div class="pokemon-types">${types}</div>
@@ -40,13 +39,13 @@ async function showPokemonCard(pokemonURL) {
 async function fetchPokemonFromAPI() {
     let pokemonURL = `${BASE_URL}?limit=${limitPokemonAmount}&offset=${offset}`;
     let response = await fetch(pokemonURL);
-    let responseToJSON = await response.json();
+    let pokemonData = await response.json();
     // console.log(responseToJSON);
 
 
-    for (let index = 0; index < responseToJSON.results.length; index++) {
+    for (let index = 0; index < pokemonData.results.length; index++) {
 
-        const pokemonName = responseToJSON.results[index];
+        const pokemonName = pokemonData.results[index];
         // console.log(pokemonName.name);
         showPokemonCard(pokemonName.url);
     }
@@ -64,42 +63,44 @@ function filterPokemon() {
 }
 
 
-async function fetchPokemonStats() {
-    let pokemonURL = `${BASE_URL}?limit=${limitPokemonAmount}&offset=${offset}`;
+async function fetchPokemonStats(pokemonURL) {
     let response = await fetch(pokemonURL);
-    let responseToJSON = await response.json();
+    let pokemonData = await response.json();
 
-    for (let index = 0; index < responseToJSON.results.length; index++) {
-        let pokemonDetailsURL = responseToJSON.results[index].url;
-        let pokemonResponse = await fetch(pokemonDetailsURL);
-        let pokemonData = await pokemonResponse.json();
-        // console.log(pokemonData.stats[index]);
+    console.log(`Stats for ${pokemonData.name}:`);
+    pokemonData.stats.forEach(statInfo => {
+        console.log(`${statInfo.stat.name}: ${statInfo.base_stat}`);
+    });
 
-        console.log(`Stats for ${pokemonData.name}:`);
-        pokemonData.stats.forEach(stat => {
-            // console.log(`${stat.stat.name}: ${stat.base_stat}`);
-        });
-    }
+    showPokemonStats(pokemonData);
 }
 
-
-async function showPokemonStats() {
-    let pokemonURL = `${BASE_URL}?limit=${limitPokemonAmount}&offset=${offset}`;
-    let response = await fetch(pokemonURL);
-    let responseToJSON = await response.json();
-    
-
-    statsContainer.style.display = "block";
-    statsContainer.style.display = "flex"; 
-    statsContainer.style.justifyContent = "center"; 
+async function showPokemonStats(pokemonData) {
+    let statsContainer = document.getElementById('statsContainer');
+    statsContainer.style.display = "flex";
+    statsContainer.style.justifyContent = "center";
     statsContainer.style.alignItems = "center";
+
+    let types = pokemonData.types.map(typeInfo => `<div class="single-type" style="visibility: visible;">${typeInfo.type.name}</div>`).join('');
+    let stats = pokemonData.stats.map(statInfo => {
+        // Berechne die Fortschrittsleiste für jede Statistik
+        let progressBarWidth = (statInfo.base_stat / 100) * 100; // Annahme: 255 ist der maximale Wert für eine Statistik
+        return `<div class="stat-item">
+                    <div class="stat-name">${statInfo.stat.name}</div>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: ${progressBarWidth}%; background-color: red"
+                            aria-valuenow="${statInfo.base_stat}" aria-valuemin="0" aria-valuemax="100">${statInfo.base_stat}</div>
+                    </div>
+                </div>`;
+    }).join('');
+
     statsContainer.innerHTML = `<div class="stats-container">
-    <img src="">
-    <b>test</b>
-    </div>`;
-
-
-    console.log('test');
+                                    <img src="${pokemonData.sprites.other.home.front_default}" alt="${pokemonData.name}">
+                                    <b>${pokemonData.name.toUpperCase()}</b>
+                                    <div class="pokemon-types">${types}</div>
+                                    <div class="all-stats">${stats}</div>
+                                </div>`;
+    console.log('Stats displayed');
 }
 
 
