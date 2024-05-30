@@ -95,7 +95,6 @@ header {
 
 .pokemon-card img {
     width: 200px;
-    transform: translateY(-40px);
 }
 
 
@@ -136,20 +135,56 @@ header {
 
 .stats-container {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    flex-direction: column;
     overflow: hidden;
     width: 400px;
     height: 70vh;
     background-color: aqua;
-    display: flex;
     flex-shrink: 1;
     margin: 32px;
     border-radius: 40px;
     animation: grow 1s;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     border: solid 10px;
+}
+
+
+.stats-container h1 {
+    font-size: 32px;
+    cursor: pointer;
+}
+
+
+.stats-container h1:hover {
+    animation: hover 0.5s;
+}
+
+
+@keyframes hover {
+    0% {
+        transform: translateY(0);
+    }
+
+    33% {
+        transform: translateY(10px);
+    }
+
+    66% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+
+.stats-container-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
 }
 
 
@@ -223,11 +258,16 @@ header {
 .progress-bar {
     border-radius: 10px 10px 10px 10px;
     color: white;
-    animation: progressAnimationStrike 4s;
+    animation: progressAnimationStrike 3s;
 }
 
 
 @keyframes progressAnimationStrike {
-    from { width: 0 }
-    to   { max-width: 100% }
+    from {
+        width: 0
+    }
+
+    to {
+        max-width: 100%
+    }
 }
