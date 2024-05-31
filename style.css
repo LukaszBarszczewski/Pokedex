@@ -153,6 +153,7 @@ header {
 .stats-container h1 {
     font-size: 32px;
     cursor: pointer;
+    z-index: 1000;
 }
 
 
