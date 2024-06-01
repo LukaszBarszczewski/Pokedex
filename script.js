@@ -51,10 +51,11 @@ function filterPokemon() {
 
     for (let index = 0; index < pokemonList.length; index++) {
         let pokemonToShow = pokemonList[index];
+        pokemonToShow = String(pokemonToShow);
         if (pokemonToShow.toLowerCase().includes(searchPokemon)) {
             console.log('TEST');
         }
-        
+
     }
 }
 
@@ -66,7 +67,6 @@ async function fetchPokemonStats(pokemonURL) {
     pokemonData.stats.forEach(statInfo => {
         console.log(`${statInfo.stat.name}: ${statInfo.base_stat}`);
     });
-
     showPokemonStats(pokemonData);
 }
 
@@ -95,7 +95,7 @@ function generateStatsContainerHTML(pokemonData) {
                 </div>`;
     }).join('');
 
-    return `<div class="stats-container">
+    return `<div class="stats-container" onclick="event.stopPropagation()">
                 <h1 id="previousPokemon"><</h1>
                 <div class="stats-container-content">
                 <img src="${pokemonData.sprites.other.home.front_default}" alt="${pokemonData.name}">
@@ -121,6 +121,11 @@ function showNextPokemon() {
         let nextPokemonURL = pokemonList[currentPokemonIndex].url;
         fetchPokemonStats(nextPokemonURL);
     }
+}
+
+
+function closePokemonStats() {
+    statsContainer.style.display = "none";
 }
 
 async function includeHTML() {
