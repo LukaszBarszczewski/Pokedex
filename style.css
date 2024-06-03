@@ -5,11 +5,12 @@ html {
 
 body {
     margin: 0;
+    background-color: rgba(128, 128, 128, 0.74);
 }
 
 
 header {
-    background-color: aquamarine;
+    background-color: rgb(59, 52, 52);
     display: flex;
     justify-content: space-between;
     align-items: center;

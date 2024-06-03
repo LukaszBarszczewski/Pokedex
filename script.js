@@ -36,7 +36,10 @@ async function fetchPokemonFromAPI() {
     for (let index = 0; index < pokemonData.results.length; index++) {
         const pokemon = pokemonData.results[index];
         pokemonList.push(pokemon);
-        showPokemonCard(pokemon.url, pokemonList.length - 1);
+
+        setTimeout(() => {
+            showPokemonCard(pokemon.url, pokemonList.length - 1);
+        }, index * 10); // Delay each call by index * 1000 milliseconds (1 second)
     }
     offset += limitPokemonAmount;
 }
@@ -44,20 +47,18 @@ async function fetchPokemonFromAPI() {
 function filterPokemon() {
     let searchPokemon = document.getElementById('searchPokemon').value.toLowerCase();
     let content = document.getElementById('content');
-    content.innerHTML = '';  // Clear the current display
-
-    let foundPokemon = false; // Flag to check if any Pokémon are found
+    content.innerHTML = '';
+    let foundPokemon = false;
 
     for (let index = 0; index < pokemonList.length; index++) {
         let pokemonToShow = pokemonList[index].name;
         if (pokemonToShow.toLowerCase().includes(searchPokemon)) {
             showPokemonCard(pokemonList[index].url, index);
-            foundPokemon = true; // Set the flag to true if a Pokémon is found
+            foundPokemon = true;
         }
     }
-
     if (!foundPokemon) {
-        content.innerHTML = '<h1>NO POKÉMON FOUND</h1>'; // Display message if no Pokémon are found
+        content.innerHTML = '<h1>NO POKÉMON FOUND</h1>';
     }
 }
 
