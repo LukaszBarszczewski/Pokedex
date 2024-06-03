@@ -43,15 +43,21 @@ async function fetchPokemonFromAPI() {
 
 function filterPokemon() {
     let searchPokemon = document.getElementById('searchPokemon').value.toLowerCase();
-    console.log(searchPokemon);
+    let content = document.getElementById('content');
+    content.innerHTML = '';  // Clear the current display
+
+    let foundPokemon = false; // Flag to check if any Pokémon are found
 
     for (let index = 0; index < pokemonList.length; index++) {
         let pokemonToShow = pokemonList[index].name;
         if (pokemonToShow.toLowerCase().includes(searchPokemon)) {
-            console.log('TEST');
-        } else {
-            console.log('ERROR');
+            showPokemonCard(pokemonList[index].url, index);
+            foundPokemon = true; // Set the flag to true if a Pokémon is found
         }
+    }
+
+    if (!foundPokemon) {
+        content.innerHTML = '<h1>NO POKÉMON FOUND</h1>'; // Display message if no Pokémon are found
     }
 }
 
@@ -78,7 +84,7 @@ async function showPokemonStats(pokemonData, index) {
     document.getElementById('nextPokemon').addEventListener('click', showNextPokemon);
 }
 
-function generateStatsContainerHTML(pokemonData, index) {
+function generateStatsContainerHTML(pokemonData) {
     let types = pokemonData.types.map(typeInfo => `<div class="single-type" style="visibility: visible;">${typeInfo.type.name}</div>`).join('');
     let stats = pokemonData.stats.map(statInfo => {
         let progressBarWidth = (statInfo.base_stat / 100) * 100;
