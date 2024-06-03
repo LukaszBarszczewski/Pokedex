@@ -10,22 +10,22 @@ function init() {
     document.getElementById('loadMorePokemon').addEventListener('click', fetchPokemonFromAPI);
 }
 
-async function showPokemonCard(pokemonURL) {
+async function showPokemonCard(pokemonURL, index) {
     let content = document.getElementById('content');
-    let generatedContent = await generateContentHTML(pokemonURL);
+    let generatedContent = await generateContentHTML(pokemonURL, index);
     content.innerHTML += generatedContent;
 }
 
-async function generateContentHTML(pokemonURL) {
+async function generateContentHTML(pokemonURL, index) {
     let response = await fetch(pokemonURL);
     let responseToJSON = await response.json();
     let types = responseToJSON.types.map(typeInfo => `<div class="single-type">${typeInfo.type.name}</div>`).join('');
 
-    return `<div class="pokemon-card" onclick="fetchPokemonStats('${pokemonURL}')">
-    <img src="${responseToJSON.sprites.other.home.front_default}">
-    <b>${responseToJSON.name.toUpperCase()}</b>
-    <div class="pokemon-types">${types}</div>
-    </div>`;
+    return `<div class="pokemon-card" onclick="fetchPokemonStats('${pokemonURL}', ${index})">
+                <img src="${responseToJSON.sprites.other.home.front_default}">
+                <b>${responseToJSON.name.toUpperCase()}</b>
+                <div class="pokemon-types">${types}</div>
+            </div>`;
 }
 
 async function fetchPokemonFromAPI() {
@@ -36,53 +36,49 @@ async function fetchPokemonFromAPI() {
     for (let index = 0; index < pokemonData.results.length; index++) {
         const pokemon = pokemonData.results[index];
         pokemonList.push(pokemon);
-        showPokemonCard(pokemon.url);
-        currentPokemonIndex = pokemonList.indexOf(pokemon[index]);
+        showPokemonCard(pokemon.url, pokemonList.length - 1);
     }
     offset += limitPokemonAmount;
 }
 
 function filterPokemon() {
-    let pokemonID = document.getElementById('searchPokemon').value;
-    let pokemonURL = BASE_URL + pokemonID;
-    let searchPokemon = document.getElementById('searchPokemon').value;
-    searchPokemon = searchPokemon.toLowerCase();
+    let searchPokemon = document.getElementById('searchPokemon').value.toLowerCase();
     console.log(searchPokemon);
 
     for (let index = 0; index < pokemonList.length; index++) {
-        let pokemonToShow = pokemonList[index];
-        pokemonToShow = String(pokemonToShow);
+        let pokemonToShow = pokemonList[index].name;
         if (pokemonToShow.toLowerCase().includes(searchPokemon)) {
             console.log('TEST');
+        } else {
+            console.log('ERROR');
         }
-
     }
 }
 
-async function fetchPokemonStats(pokemonURL) {
+async function fetchPokemonStats(pokemonURL, index) {
+    currentPokemonIndex = index;
     let response = await fetch(pokemonURL);
+    if (!response.ok) {
+        console.error('Failed to fetch Pokémon stats:', response.statusText);
+        return;
+    }
     let pokemonData = await response.json();
-
-    console.log(`Stats for ${pokemonData.name}:`);
-    pokemonData.stats.forEach(statInfo => {
-        console.log(`${statInfo.stat.name}: ${statInfo.base_stat}`);
-    });
     showPokemonStats(pokemonData);
 }
 
-async function showPokemonStats(pokemonData) {
+async function showPokemonStats(pokemonData, index) {
     let statsContainer = document.getElementById('statsContainer');
     statsContainer.style.display = "flex";
     statsContainer.style.justifyContent = "center";
     statsContainer.style.alignItems = "center";
 
-    statsContainer.innerHTML = generateStatsContainerHTML(pokemonData);
+    statsContainer.innerHTML = generateStatsContainerHTML(pokemonData, index);
 
     document.getElementById('previousPokemon').addEventListener('click', showPreviousPokemon);
     document.getElementById('nextPokemon').addEventListener('click', showNextPokemon);
 }
 
-function generateStatsContainerHTML(pokemonData) {
+function generateStatsContainerHTML(pokemonData, index) {
     let types = pokemonData.types.map(typeInfo => `<div class="single-type" style="visibility: visible;">${typeInfo.type.name}</div>`).join('');
     let stats = pokemonData.stats.map(statInfo => {
         let progressBarWidth = (statInfo.base_stat / 100) * 100;
@@ -111,15 +107,15 @@ function showPreviousPokemon() {
     if (currentPokemonIndex > 0) {
         currentPokemonIndex--;
         let previousPokemonURL = pokemonList[currentPokemonIndex].url;
-        fetchPokemonStats(previousPokemonURL);
+        fetchPokemonStats(previousPokemonURL, currentPokemonIndex);
     }
 }
 
 function showNextPokemon() {
-    if (currentPokemonIndex < pokemonList.length) {
+    if (currentPokemonIndex < pokemonList.length - 1) {
         currentPokemonIndex++;
         let nextPokemonURL = pokemonList[currentPokemonIndex].url;
-        fetchPokemonStats(nextPokemonURL);
+        fetchPokemonStats(nextPokemonURL, currentPokemonIndex);
     }
 }
 
