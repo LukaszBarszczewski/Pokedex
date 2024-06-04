@@ -4,6 +4,27 @@ let offset = 0;
 let pokemonList = [];
 let currentPokemonIndex = 0;
 
+const typeColors = {
+    normal: '#A8A77A',
+    fire: '#EE8130',
+    water: '#6390F0',
+    electric: '#F7D02C',
+    grass: '#7AC74C',
+    ice: '#96D9D6',
+    fighting: '#C22E28',
+    poison: '#A33EA1',
+    ground: '#E2BF65',
+    flying: '#A98FF3',
+    psychic: '#F95587',
+    bug: '#A6B91A',
+    rock: '#B6A136',
+    ghost: '#735797',
+    dragon: '#6F35FC',
+    dark: '#705746',
+    steel: '#B7B7CE',
+    fairy: '#D685AD'
+};
+
 function init() {
     includeHTML();
     fetchPokemonFromAPI();
@@ -19,7 +40,11 @@ async function showPokemonCard(pokemonURL, index) {
 async function generateContentHTML(pokemonURL, index) {
     let response = await fetch(pokemonURL);
     let responseToJSON = await response.json();
-    let types = responseToJSON.types.map(typeInfo => `<div class="single-type">${typeInfo.type.name}</div>`).join('');
+    let types = responseToJSON.types.map(typeInfo => {
+        let typeName = typeInfo.type.name;
+        let typeColor = typeColors[typeName] || '#777';
+        return `<div class="single-type" style="background-color: ${typeColor};">${typeName}</div>`;
+    }).join('');
 
     return `<div class="pokemon-card" onclick="fetchPokemonStats('${pokemonURL}', ${index})">
                 <img src="${responseToJSON.sprites.other.home.front_default}">
@@ -37,9 +62,7 @@ async function fetchPokemonFromAPI() {
         const pokemon = pokemonData.results[index];
         pokemonList.push(pokemon);
 
-        setTimeout(() => {
-            showPokemonCard(pokemon.url, pokemonList.length - 1);
-        }, index * 10); // Delay each call by index * 1000 milliseconds (1 second)
+        await showPokemonCard(pokemon.url, pokemonList.length - 1);
     }
     offset += limitPokemonAmount;
 }
@@ -47,7 +70,8 @@ async function fetchPokemonFromAPI() {
 function filterPokemon() {
     let searchPokemon = document.getElementById('searchPokemon').value.toLowerCase();
     let content = document.getElementById('content');
-    content.innerHTML = '';
+    content.innerHTML = ''; 
+
     let foundPokemon = false;
 
     for (let index = 0; index < pokemonList.length; index++) {
@@ -57,6 +81,7 @@ function filterPokemon() {
             foundPokemon = true;
         }
     }
+
     if (!foundPokemon) {
         content.innerHTML = '<h1>NO POKÉMON FOUND</h1>';
     }
@@ -86,7 +111,12 @@ async function showPokemonStats(pokemonData, index) {
 }
 
 function generateStatsContainerHTML(pokemonData) {
-    let types = pokemonData.types.map(typeInfo => `<div class="single-type" style="visibility: visible;">${typeInfo.type.name}</div>`).join('');
+    let types = pokemonData.types.map(typeInfo => {
+        let typeName = typeInfo.type.name;
+        let typeColor = typeColors[typeName] || '#777';
+        return `<div class="single-type" style="background-color: ${typeColor}; visibility: visible;">${typeName}</div>`;
+    }).join('');
+    
     let stats = pokemonData.stats.map(statInfo => {
         let progressBarWidth = (statInfo.base_stat / 100) * 100;
         return `<div class="stat-item">
@@ -101,11 +131,11 @@ function generateStatsContainerHTML(pokemonData) {
     return `<div class="stats-container" onclick="event.stopPropagation()">
                 <h1 id="previousPokemon"><</h1>
                 <div class="stats-container-content">
-                <img src="${pokemonData.sprites.other.home.front_default}" alt="${pokemonData.name}">
-                <b>${pokemonData.name.toUpperCase()}</b>
-                <div class="pokemon-types">${types}</div>
-                <div class="all-stats">${stats}</div>
-            </div>
+                    <img src="${pokemonData.sprites.other.home.front_default}" alt="${pokemonData.name}">
+                    <b>${pokemonData.name.toUpperCase()}</b>
+                    <div class="pokemon-types">${types}</div>
+                    <div class="all-stats">${stats}</div>
+                </div>
                 <h1 id="nextPokemon">></h1>
             </div>`;
 }
