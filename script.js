@@ -6,18 +6,18 @@ let currentPokemonIndex = 0;
 
 const typeColors = {
     normal: '#A8A77A',
-    fire: '#EE8130',
-    water: '#6390F0',
+    fire: '#CE7E07',
+    water: '#6AC0D3',
     electric: '#F7D02C',
-    grass: '#7AC74C',
+    grass: '#4A9834',
     ice: '#96D9D6',
     fighting: '#C22E28',
     poison: '#A33EA1',
-    ground: '#E2BF65',
+    ground: '#693E11',
     flying: '#A98FF3',
     psychic: '#F95587',
     bug: '#A6B91A',
-    rock: '#B6A136',
+    rock: '#757675',
     ghost: '#735797',
     dragon: '#6F35FC',
     dark: '#705746',
@@ -67,7 +67,7 @@ async function fetchPokemonFromAPI() {
     offset += limitPokemonAmount;
 }
 
-function filterPokemon() {
+async function filterPokemon() {
     let searchPokemon = document.getElementById('searchPokemon').value.toLowerCase();
     let content = document.getElementById('content');
     content.innerHTML = ''; 
@@ -77,7 +77,7 @@ function filterPokemon() {
     for (let index = 0; index < pokemonList.length; index++) {
         let pokemonToShow = pokemonList[index].name;
         if (pokemonToShow.toLowerCase().includes(searchPokemon)) {
-            showPokemonCard(pokemonList[index].url, index);
+            await showPokemonCard(pokemonList[index].url, index);
             foundPokemon = true;
         }
     }
@@ -111,10 +111,14 @@ async function showPokemonStats(pokemonData, index) {
 }
 
 function generateStatsContainerHTML(pokemonData) {
+    // Determine the primary type color
+    let primaryType = pokemonData.types[0].type.name;
+    let typeColor = typeColors[primaryType] || '#777'; // Default to gray if type not found
+
     let types = pokemonData.types.map(typeInfo => {
         let typeName = typeInfo.type.name;
-        let typeColor = typeColors[typeName] || '#777';
-        return `<div class="single-type" style="background-color: ${typeColor}; visibility: visible;">${typeName}</div>`;
+        let color = typeColors[typeName] || '#777';
+        return `<div class="single-type" style="background-color: ${color}; visibility: visible;">${typeName}</div>`;
     }).join('');
     
     let stats = pokemonData.stats.map(statInfo => {
@@ -122,13 +126,13 @@ function generateStatsContainerHTML(pokemonData) {
         return `<div class="stat-item">
                     <div class="stat-name">${statInfo.stat.name.toUpperCase()}</div>
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: ${progressBarWidth}%; background-color: red"
+                        <div class="progress-bar" role="progressbar" style="width: ${progressBarWidth}%; background-color: ${typeColor};"
                             aria-valuenow="${statInfo.base_stat}" aria-valuemin="0" aria-valuemax="100">${statInfo.base_stat}</div>
                     </div>
                 </div>`;
     }).join('');
 
-    return `<div class="stats-container" onclick="event.stopPropagation()">
+    return `<div class="stats-container" onclick="event.stopPropagation()" style="border: solid 10px ${typeColor};">
                 <h1 id="previousPokemon"><</h1>
                 <div class="stats-container-content">
                     <img src="${pokemonData.sprites.other.home.front_default}" alt="${pokemonData.name}">
