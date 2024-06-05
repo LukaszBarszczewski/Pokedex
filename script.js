@@ -25,17 +25,20 @@ const typeColors = {
     fairy: '#D685AD'
 };
 
+
 function init() {
     includeHTML();
     fetchPokemonFromAPI();
     document.getElementById('loadMorePokemon').addEventListener('click', fetchPokemonFromAPI);
 }
 
+
 async function showPokemonCard(pokemonURL, index) {
     let content = document.getElementById('content');
     let generatedContent = await generateContentHTML(pokemonURL, index);
     content.innerHTML += generatedContent;
 }
+
 
 async function generateContentHTML(pokemonURL, index) {
     let response = await fetch(pokemonURL);
@@ -53,6 +56,7 @@ async function generateContentHTML(pokemonURL, index) {
             </div>`;
 }
 
+
 async function fetchPokemonFromAPI() {
     let pokemonURL = `${BASE_URL}?limit=${limitPokemonAmount}&offset=${offset}`;
     let response = await fetch(pokemonURL);
@@ -67,10 +71,12 @@ async function fetchPokemonFromAPI() {
     offset += limitPokemonAmount;
 }
 
+
 async function filterPokemon() {
     let searchPokemon = document.getElementById('searchPokemon').value.toLowerCase();
     let content = document.getElementById('content');
-    content.innerHTML = ''; 
+    content.innerHTML = '';
+    document.getElementById('loadMorePokemon').style.display = "none";
 
     let foundPokemon = false;
 
@@ -83,9 +89,14 @@ async function filterPokemon() {
     }
 
     if (!foundPokemon) {
-        content.innerHTML = '<h1>NO POKÉMON FOUND</h1>';
+        content.innerHTML = '<h1 style="color: hsla(0, 0%, 100%, 0.8);">NO POKÉMON FOUND</h1>';
+    }
+
+    if (!searchPokemon) {
+        document.getElementById('loadMorePokemon').style.display = "block";
     }
 }
+
 
 async function fetchPokemonStats(pokemonURL, index) {
     currentPokemonIndex = index;
@@ -97,6 +108,7 @@ async function fetchPokemonStats(pokemonURL, index) {
     let pokemonData = await response.json();
     showPokemonStats(pokemonData);
 }
+
 
 async function showPokemonStats(pokemonData, index) {
     let statsContainer = document.getElementById('statsContainer');
@@ -110,17 +122,17 @@ async function showPokemonStats(pokemonData, index) {
     document.getElementById('nextPokemon').addEventListener('click', showNextPokemon);
 }
 
+
 function generateStatsContainerHTML(pokemonData) {
-    // Determine the primary type color
     let primaryType = pokemonData.types[0].type.name;
-    let typeColor = typeColors[primaryType] || '#777'; // Default to gray if type not found
+    let typeColor = typeColors[primaryType] || '#777';
 
     let types = pokemonData.types.map(typeInfo => {
         let typeName = typeInfo.type.name;
         let color = typeColors[typeName] || '#777';
         return `<div class="single-type" style="background-color: ${color}; visibility: visible;">${typeName}</div>`;
     }).join('');
-    
+
     let stats = pokemonData.stats.map(statInfo => {
         let progressBarWidth = (statInfo.base_stat / 100) * 100;
         return `<div class="stat-item">
@@ -144,6 +156,7 @@ function generateStatsContainerHTML(pokemonData) {
             </div>`;
 }
 
+
 function showPreviousPokemon() {
     if (currentPokemonIndex > 0) {
         currentPokemonIndex--;
@@ -151,6 +164,7 @@ function showPreviousPokemon() {
         fetchPokemonStats(previousPokemonURL, currentPokemonIndex);
     }
 }
+
 
 function showNextPokemon() {
     if (currentPokemonIndex < pokemonList.length - 1) {
@@ -164,6 +178,7 @@ function showNextPokemon() {
 function closePokemonStats() {
     statsContainer.style.display = "none";
 }
+
 
 async function includeHTML() {
     let includeElements = document.querySelectorAll('[w3-include-html]');
