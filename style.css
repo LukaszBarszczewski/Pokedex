@@ -35,6 +35,13 @@ header {
 }
 
 
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
 #content {
     display: flex;
     justify-content: center;
@@ -259,7 +266,6 @@ header {
 
 .progress-bar {
     border-radius: 10px 10px 10px 10px;
-    /* background-color: rgb(109, 151, 175); */
     animation: progressAnimationStrike 3s;
 }
 
@@ -271,5 +277,55 @@ header {
 
     to {
         max-width: 100%
+    }
+}
+
+
+#loadMorePokemon {
+    width: 20vw;
+    height: 48px;
+    margin: 32px 0;
+    cursor: pointer;
+    background: linear-gradient(135deg, rgb(52, 40, 95) 35%, rgb(74, 109, 129) 100%);
+    color: hsla(0, 0%, 100%, 0.8);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 28px;
+    font-size: 32px;
+}
+
+
+#loadMorePokemon:hover {
+    background: linear-gradient(135deg, rgb(52, 40, 95) 5%, rgb(74, 109, 129) 100%);
+    width: 23vw;
+    transition: 0.3s ease-in-out;
+}
+
+
+@media (max-width: 900px) {
+    #loadMorePokemon {
+        width: 23vw;
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 650px) {
+    #loadMorePokemon {
+        width: 23vw;
+        font-size: 16px;
+    }
+}
+
+
+@media (max-width: 650px) {
+    .stats-container-content {
+        width: 80%;
+        height: 80%;
+        transform: translateY(-54px);
+    }
+
+    .stats-container img {
+        width: 166px;
+        height: 500px;
     }
 }

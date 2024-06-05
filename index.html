@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,17 +8,22 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
 </head>
+
 <body onload="init()">
     <!-- HEADER -->
     <header w3-include-html="templates/header.html"></header>
 
-    <section id="content">
-        <div id="statsContainer" onclick="closePokemonStats()">
-            
-        </div>
-    </section>
+    <main>
 
-    <button id="loadMorePokemon">Load more</button>
+        <section id="content">
+            <div id="statsContainer" onclick="closePokemonStats()">
 
+            </div>
+        </section>
+
+        <button id="loadMorePokemon">Load more</button>
+
+    </main>
 </body>
+
 </html>
