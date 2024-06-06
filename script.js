@@ -29,14 +29,16 @@ const typeColors = {
 function init() {
     includeHTML();
     fetchPokemonFromAPI();
-    document.getElementById('loadMorePokemon').addEventListener('click', fetchPokemonFromAPI);
 }
+
+// document.getElementById('loadMorePokemon').removeEventListener('click', fetchPokemonFromAPI);
 
 
 async function showPokemonCard(pokemonURL, index) {
     let content = document.getElementById('content');
     let generatedContent = await generateContentHTML(pokemonURL, index);
     content.innerHTML += generatedContent;
+    document.getElementById('loadMorePokemon').addEventListener('click', fetchPokemonFromAPI);
 }
 
 
@@ -58,6 +60,7 @@ async function generateContentHTML(pokemonURL, index) {
 
 
 async function fetchPokemonFromAPI() {
+    document.getElementById('loadMorePokemon').disabled = true;
     let pokemonURL = `${BASE_URL}?limit=${limitPokemonAmount}&offset=${offset}`;
     let response = await fetch(pokemonURL);
     let pokemonData = await response.json();
@@ -69,6 +72,7 @@ async function fetchPokemonFromAPI() {
         await showPokemonCard(pokemon.url, pokemonList.length - 1);
     }
     offset += limitPokemonAmount;
+    document.getElementById('loadMorePokemon').disabled = false;
 }
 
 
