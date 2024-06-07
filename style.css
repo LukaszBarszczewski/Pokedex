@@ -6,11 +6,13 @@ html {
 body {
     margin: 0;
     background-color: rgb(14, 8, 37);
+    font-family: "Kalam", cursive;
 }
 
 
 header {
-    background-color: rgb(59, 52, 52);
+    background: linear-gradient(135deg, rgba(40, 40, 41, 0) 0%, rgb(48,44,88) 50%);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,8 +32,23 @@ header {
 }
 
 
+.header-logo h1 {
+    color: hsla(0, 0%, 100%, 0.8);;
+}
+
+
 #searchPokemon {
-    background-color: transparent;
+    background-color: hsla(0, 0%, 100%, 0.1);
+    color: hsla(0, 0%, 100%, 0.8);
+    font-size: 16px;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 20px;
+}
+
+
+#searchPokemon:focus {
+    outline: none;
 }
 
 
@@ -79,6 +96,7 @@ main {
 
 .pokemon-card:hover .single-type {
     visibility: visible;
+    margin: 0;
     opacity: 1;
     animation: fadeIn 0.5s forwards;
 }
@@ -120,6 +138,7 @@ main {
 
 .single-type {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    border: 1px solid hsla(0, 0%, 100%, 0.8);
     padding: 8px;
     border-radius: 20px;
     margin: 8px 0;
@@ -194,6 +213,8 @@ main {
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
+    padding-bottom: 32px;
+    width: 80%;
 }
 
 
@@ -237,7 +258,7 @@ main {
 
 
 .stats-container img {
-    width: 300px;
+    width: 222px;
     position: relative;
     top: -14px;
 }
@@ -321,11 +342,34 @@ main {
     .stats-container-content {
         width: 80%;
         height: 80%;
-        transform: translateY(-54px);
+        transform: translateY(-30px);
+        font-size: 10px;
     }
 
     .stats-container img {
-        width: 166px;
+        width: 150px;
         height: 500px;
+    }
+}
+
+
+@media (max-width: 550px) {
+    .header-logo h1 {
+        display: none;
+    }
+}
+
+
+@media (max-width: 400px) {
+    .header-logo {
+        display: none;
+    }
+    
+    #searchPokemon {
+        margin: 28px 0;
+    }
+
+    header {
+        justify-content: center;
     }
 }
