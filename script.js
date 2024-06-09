@@ -76,7 +76,7 @@ async function fetchPokemonFromAPI() {
 
 async function filterPokemon() {
     let searchPokemon = document.getElementById('searchPokemon').value.toLowerCase();
-    document.getElementById('content').innerHTML = '';
+    document.getElementById('content').innerHTML = '<div id="statsContainer" onclick="closePokemonStats()">';
     document.getElementById('loadMorePokemon').style.display = "none";
     let foundPokemon = false;
 
